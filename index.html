@@ -5,7 +5,7 @@
 		// inboxCount is initially set to zero
 		var inboxCount = 0;
 
-		// The addElement function creates new divs and content
+		// The addElement function creates new divs and content, while setting the attributes of those divs
 		function addElement(content,tagname, id_value, display_value, class_value){
 			var newDiv = document.createElement(tagname);
 			var newContent = document.createTextNode(content);
@@ -18,7 +18,7 @@
 		};
 
 
-		// The addMessage calls the addElement function to add content to the webpage.
+		// The addMessage calls the addElement function repeatedly to add content to the webpage.
 		function addMessage (){
 			var message = generateMessage();
 			i = inboxCount+1;
