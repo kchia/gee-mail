@@ -1,11 +1,72 @@
 <html>
 	<head>
 		<script src="js/mail-generator.js"></script>
+		<script language="javascript" type ="text/javascript">
+		// inboxCount is initially set to zero
+		var inboxCount = 0;
+
+		// The addElement function creates new divs and content
+		function addElement(content,tagname, id_value, display_value, class_value){
+			var newDiv = document.createElement(tagname);
+			var newContent = document.createTextNode(content);
+			newDiv.setAttribute("id", id_value);
+			newDiv.setAttribute("style", display_value);
+			newDiv.setAttribute("class", class_value)
+			newDiv.appendChild(newContent);
+			var currentDiv = document.getElementById(".container");
+			document.body.insertBefore(newDiv, currentDiv);
+		};
+
+
+		// The addMessage calls the addElement function to add content to the webpage.
+		function addMessage (){
+			var message = generateMessage();
+			i = inboxCount+1;
+			addElement("Message " + i,"h2", "message" + i); 
+			addElement("Date: " + message.date, "p", "date" + i);
+			addElement("Subject: " + message.subject, "p", "subject" + i);
+			addElement("Sender: " + message.sender, "p", "sender" + i);
+			addElement("Body: " + message.body, "p", "body" + i, "display: none", "bodymessage");
+			addElement("Click to See Message!", "button", "button" + i, "display: block", "buttons");
+			document.getElementById("button" + i).setAttribute("onclick", displayMessage(i));
+			inboxCount ++;
+			addElement("Inbox Count: " + inboxCount, "h4")
+		};
+
+
+		// On page load, the function below populates the HTML with 10 sets of messages (built from a random assortment of date, sender, subject and message in mail-generator.js
+		window.onload = function() {
+			for (var i = 0, length = geemails.length; i < length; i++){
+			inboxCount ++
+			addElement("Message " + (i+1),"h2", "message" + (i+1)); 
+			addElement("Date: " + geemails[i].date, "p", "date" + (i+1));
+			addElement("Subject: " + geemails[i].subject, "p", "subject" + (i+1));
+			addElement("Sender: " + geemails[i].sender, "p", "sender" + (i+1));
+			addElement("Body: " + geemails[i].body, "p", "body" + (i+1), "display: none", "bodymessage");
+			addElement("Click to See Message!", "button", "button" + (i+1), "display: block", "buttons");
+			document.getElementById("button" + (i+1)).setAttribute("onclick", displayMessage((i+1)));
+		}
+			addElement("Inbox Count: " + inboxCount, "h4");
+			var intervalID = window.setInterval(addMessage, 3000);
+		};
+
+		
+		// The desired functionality of the displayMessage function is to display the body of each message only when the "Click to See Message!" button is clicked.
+		// However, the displayMessage function is firing on page load (because it is embedded within the window.onload function).
+		// As a result, the displays for the body and button for each message get set to "block" and "none" immediately on page load.
+		// I'm not sure how to fix this...
+		function displayMessage(num){
+				document.getElementById("body" + num).style.display = "block";
+				document.getElementById("button" + num).style.display = "none";
+		};
+
+		</script>
 		<link href="css/style.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
 		<div class="container" id="main">
-			Build Me!
+			<h1>Hou's GeeMail Spam Messages...</h1>
 		</div>
+
 	</body>
 </html>
